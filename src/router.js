@@ -38,6 +38,11 @@ module.exports = function (routes) {
 
             if (route[part] || route['*']) {
                 route = route[part] || route['*'];
+				if (route._PARAM) {
+					req.locals = req.locals || {params: {}};
+					req.locals.params = req.locals.params || {};
+					req.locals.params[route._PARAM] = part;
+				}
             } else {
                 if (!isFunction(route)) {
                     route = undefined

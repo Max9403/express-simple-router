@@ -21,10 +21,10 @@
   },
   "homepage": "https://github.com/Max9403/express-simple-router#readme",
   "devDependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "jest": "^22.4.3",
-    "supertest": "^3.0.0"
+    "jest": "^23.5.0",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "debug": "^3.1.0",

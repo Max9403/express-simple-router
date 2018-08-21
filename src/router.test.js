@@ -60,4 +60,45 @@ describe('Check routes', function () {
             expect(respone.body).toEqual({...data, path:"test"});
         })
     })
+    describe("Parameters", () => {
+        test("GET", async () => {
+            const respone = await request.get('/params/test');
+            expect(respone.statusCode).toBe(200);
+            expect(respone.body).toEqual({param: "test"});
+        });
+    })
+    describe("Middleware", () => {
+        test("GET", async () => {
+            const respone = await request.get('/middleware');
+            expect(respone.statusCode).toBe(200);
+            expect(respone.body).toEqual({middleware: true});
+        });
+    })
+    describe("Array", () => {
+		describe("Valid", () => {
+			test("GET", async () => {
+				const respone = await request.get('/stack/valid');
+				expect(respone.statusCode).toBe(200);
+				expect(respone.body).toEqual({array: true, middleware: true });
+			});
+        });
+		describe("Error", () => {
+			test("GET", async () => {
+				const respone = await request.get('/stack/invalid/throw');
+				expect(respone.statusCode).toBe(500);
+			});
+        });
+		describe("Error", () => {
+			test("GET", async () => {
+				const respone = await request.get('/stack/invalid/pass');
+				expect(respone.statusCode).toBe(500);
+			});
+        });
+    })
+    describe("404", () => {
+        test("GET", async () => {
+            const respone = await request.get('/this/doesnt/exists');
+            expect(respone.statusCode).toBe(404);
+        });
+    })
 });

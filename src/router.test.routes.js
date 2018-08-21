@@ -14,6 +14,14 @@ module.exports = Object.assign({
     POST(req, res) {
         res.send(req.body)
     },
+	params: {
+		'*': {
+			_PARAM: "test",
+			GET(req, res) {
+				res.send({param: req.locals.params.test});
+			}
+		}
+	},
     a: {
         dynamic: {
             '*': {
@@ -41,5 +49,39 @@ module.exports = Object.assign({
                 }
             }
         }
-    }
+    },
+	middleware(req, res, next) {
+		res.send({middleware: true});
+		next();
+	},
+	stack: {
+		valid: {
+			GET: [
+				(req, res, next) => {
+					req.middleware = { array: true, middleware: true};
+					next();
+				},
+				(req, res) => {
+					res.send(req.middleware);
+				}
+			]
+		},
+		invalid: {
+			throw: {
+				GET: [
+					(req, res, next) => {
+						throw new Exception("Test exception handler");						
+					}
+				]
+			},			
+			pass: {
+				GET: [
+					(req, res, next) => {
+						next(new Error("Test exception handler"));
+					}
+				]
+			}
+
+		}
+	}
 }, testFunctions);
